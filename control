@@ -1,0 +1,9 @@
+Package: kr.xsf1re.vnodebypass
+Name: vnodeBypass
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: An awesome tool of some sort!!
+Maintainer: XsF1re
+Author: XsF1re
+Section: System
+Tag: role::hacker

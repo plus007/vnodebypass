@@ -323,8 +323,8 @@ int koffset(enum kstruct_offset offset) {
 uint32_t create_outsize;
 
 int init_offsets() {
-	if (SYSTEM_VERSION_GREATER_THAN(@"13.5")) {
-		printf("[-] iOS version too high, 13.4.x or lower required\n");
+	if (SYSTEM_VERSION_GREATER_THAN(@"14.1")) {
+		printf("[-] iOS version too high, 14.1 or lower required\n");
 		return 1;
 	}
 	else if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"13.0")) {

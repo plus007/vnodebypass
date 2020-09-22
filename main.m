@@ -15,6 +15,7 @@
 #define VM_KERNEL_LINK_ADDRESS (0xFFFFFFF007004000ULL)
 #define kCFCoreFoundationVersionNumber_iOS_13_0_b2 (1656)
 #define kCFCoreFoundationVersionNumber_iOS_13_0_b1 (1652.20)
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
 #define KADDR_FMT "0x%" PRIX64
 #define VM_KERN_MEMORY_CPU (9)
@@ -403,8 +404,13 @@ uint32_t savedVnodeOrig;
 
 uint64_t get_vnode_with_file_index(int file_index){
 //https://github.com/jakeajames/time_waste/blob/master/time_waste/offsets.m
-
-	uint64_t filedesc = rk64(proc + koffset(KSTRUCT_OFFSET_PROC_P_FD));
+	uint64_t filedesc = 0;
+	if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0")) {
+		filedesc = rk64(proc + 0xF8);
+	}
+	else {
+		filedesc = rk64(proc + koffset(KSTRUCT_OFFSET_PROC_P_FD));
+	}
 	uint64_t fileproc = rk64(filedesc + koffset(KSTRUCT_OFFSET_FILEDESC_FD_OFILES));
 	uint64_t openedfile = rk64(fileproc  + (sizeof(void*) * file_index));
 	uint64_t fileglob = rk64(openedfile + koffset(KSTRUCT_OFFSET_FILEPROC_F_FGLOB));
@@ -421,7 +427,13 @@ uint64_t get_vnode_with_file_index(int file_index){
 }
 
 uint64_t recovery_vnode_with_file_index(int file_index) {
-	uint64_t filedesc = rk64(proc + koffset(KSTRUCT_OFFSET_PROC_P_FD));
+	uint64_t filedesc = 0;
+	if(SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"14.0")) {
+		filedesc = rk64(proc + 0xF8);
+	}
+	else {
+		filedesc = rk64(proc + koffset(KSTRUCT_OFFSET_PROC_P_FD));
+	}
 	uint64_t fileproc = rk64(filedesc + koffset(KSTRUCT_OFFSET_FILEDESC_FD_OFILES));
 	uint64_t openedfile = rk64(fileproc  + (sizeof(void*) * file_index));
 	uint64_t fileglob = rk64(openedfile + koffset(KSTRUCT_OFFSET_FILEPROC_F_FGLOB));
@@ -479,52 +491,69 @@ main(int argc, char **argv) {
 							printf("===== Welcome to vnodeBypass =====\n");
 
 							NSArray<NSString*>* hidePathList = @[
-								@"/bin/ls",
-								@"/Applications/SafeMode.app",
 								@"/.bootstrapped_electra",
-								@"/bin/sed",
-								@"/usr/lib/libsubstitute.0.dylib",
-								@"/bin/kill",
-								@"/bin/gzip",
-								@"/usr/bin/which",
-								@"/usr/bin/diff",
-								@"/jb",
-								@"/usr/lib/libjailbreak.dylib",
-								@"/bin/mkdir",
-								@"/Library/Frameworks/CydiaSubstrate.framework",
-								@"/bin/cp",
-								@"/bin/chgrp",
-								@"/usr/lib/SBInject",
-								@"/bin/cat",
-								@"/bin/tar",
-								@"/bin/chmod",
-								@"/usr/share/terminfo",
-								@"/bin/grep",
-								@"/usr/lib/SBInject.dylib",
-								@"/electra",
-								@"/bin/chown",
-								@"/usr/bin/tar",
-								@"/usr/bin/killall",
 								@"/Applications/Anemone.app",
-								@"/bin/ln",
-								@"/usr/bin/xargs",
-								@"/bin/su",
-								@"/usr/bin/recache",
-								@"/etc/profile",
-								@"/usr/lib/libsubstrate.dylib",
-								@"/bin/bunzip2",
-								@"/usr/bin/passwd",
-								@"/usr/lib/libsubstitute.dylib",
-								@"/etc/apt",
-								@"/usr/bin/hostinfo",
-								@"/bootstrap",
-								@"/Library/Themes",
-								@"/bin/bzip2",
-								@"/usr/libexec/sftp-server",
 								@"/Applications/Cydia.app",
+								@"/Applications/SafeMode.app",
 								@"/bin/bash",
-								@"/bin/sh",
+								@"/bin/bunzip2",
+								@"/bin/bzip2",
+								@"/bin/cat",
+								@"/bin/chgrp",
+								@"/bin/chmod",
+								@"/bin/chown",
+								@"/bin/cp",
+								@"/bin/grep",
+								@"/bin/gzip",
+								@"/bin/kill",
+								@"/bin/ln",
+								@"/bin/ls",
+								@"/bin/mkdir",
 								@"/bin/mv",
+								@"/bin/sed",
+								@"/bin/sh",
+								@"/bin/su",
+								@"/bin/tar",
+								@"/binpack",
+								@"/bootstrap",
+								@"/chimera",
+								@"/electra",
+								@"/etc/apt",
+								@"/etc/profile",
+								@"/jb",
+								@"/Library/dpkg/info/com.inoahdev.launchinsafemode.list",
+								@"/Library/dpkg/info/com.inoahdev.launchinsafemode.md5sums",
+								@"/Library/Frameworks/CydiaSubstrate.framework",
+								@"/Library/MobileSubstrate/DynamicLibraries/FlyJB.dylb",
+								@"/Library/MobileSubstrate/MobileSubstrate.dylib",
+								@"/Library/PreferenceBundles/LaunchInSafeMode.bundle",
+								@"/Library/PreferenceLoader/Preferences/LaunchInSafeMode.plist",
+								@"/Library/Themes",
+								@"/private/var/binpack",
+								@"/private/var/checkra1n.dmg",
+								@"/private/var/lib/apt",
+								@"/usr/bin/diff",
+								@"/usr/bin/hostinfo",
+								@"/usr/bin/killall",
+								@"/usr/bin/passwd",
+								@"/usr/bin/recache",
+								@"/usr/bin/tar",
+								@"/usr/bin/which",
+								@"/usr/bin/xargs",
+								@"/usr/lib/libjailbreak.dylib",
+								@"/usr/lib/libsubstitute.0.dylib",
+								@"/usr/lib/libsubstitute.dylib",
+								@"/usr/lib/libsubstrate.dylib",
+								@"/usr/lib/SBInject",
+								@"/usr/lib/SBInject.dylib",
+								@"/usr/lib/TweakInject",
+								@"/usr/lib/TweakInject.dylib",
+								@"/usr/lib/TweakInjectMapsCheck.dylib",
+								@"/usr/libexec/sftp-server",
+								@"/usr/sbin/sshd",
+								@"/usr/share/terminfo",
+								@"/var/mobile/Library/.sbinjectSafeMode",
+								@"/var/mobile/Library/Preferences/jp.akusio.kernbypass.plist",
 							];
 							NSUInteger arrayLength = [hidePathList count];
 							int arrayLength_int = (int)arrayLength;

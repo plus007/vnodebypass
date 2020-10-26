@@ -2,7 +2,7 @@ GO_EASY_ON_ME = 1
 DEBUG=0
 FINALPACKAGE=1
 
-TARGET := iphone:clang:14.0:12.2
+TARGET := iphone:clang:12.4:12.4
 ARCHS = arm64 arm64e
 
 include $(THEOS)/makefiles/common.mk

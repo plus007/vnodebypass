@@ -72,8 +72,6 @@ sextract64(uint64_t val, unsigned start, unsigned len) {
 
 static uint32_t off_p_pid = 0;
 static uint32_t off_p_pfd = 0;
-static uint32_t off_fd_rdir = 0;
-static uint32_t off_fd_cdir = 0;
 static uint32_t off_fd_ofiles = 0;
 static uint32_t off_fp_fglob = 0;
 static uint32_t off_fg_data = 0;
@@ -84,10 +82,9 @@ static uint32_t off_vnode_vflags = 0;
 int offset_init() {
 	if(kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_14_0_b1) {
 		// ios 14
+		printf("iOS 14.x offset selected!!!\n");
 		off_p_pid = 0x68;
 		off_p_pfd = 0xf8;
-		off_fd_rdir = 0x40;
-		off_fd_cdir = 0x38;
 		off_fd_ofiles = 0x0;
 		off_fp_fglob = 0x10;
 		off_fg_data = 0x38;
@@ -99,10 +96,9 @@ int offset_init() {
 
 	if(kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_13_0_b2) {
 		// ios 13
+		printf("iOS 13.x offset selected!!!\n");
 		off_p_pid = 0x68;
 		off_p_pfd = 0x108;
-		off_fd_rdir = 0x40;
-		off_fd_cdir = 0x38;
 		off_fd_ofiles = 0x0;
 		off_fp_fglob = 0x10;
 		off_fg_data = 0x38;
@@ -115,12 +111,11 @@ int offset_init() {
 	if(kCFCoreFoundationVersionNumber <= kCFCoreFoundationVersionNumber_iOS_13_0_b1
 	   && kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_12_0) {
 		//ios 12
+		printf("iOS 12.x offset selected!!!\n");
 		off_p_pid = 0x60;
 		off_p_pfd = 0x100;
-		off_fd_rdir = 0x40;
-		off_fd_cdir = 0x38;
 		off_fd_ofiles = 0x0;
-		off_fp_fglob = 0x10;
+		off_fp_fglob = 0x8;
 		off_fg_data = 0x38;
 		off_vnode_iocount = 0x64;
 		off_vnode_usecount = 0x60;

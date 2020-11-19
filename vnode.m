@@ -29,7 +29,7 @@ void saveVnode(){
 		return;
 	}
 
-    initPath();
+	initPath();
 	init_kernel();
 	find_task(getpid(), &our_task);
 	printf("this_proc: " KADDR_FMT "\n", this_proc);

@@ -1,6 +1,9 @@
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #include "vnode.h"
 #include "kernel.h"
 #include "SVC_Caller.h"
+#include "libdimentio.h"
 
 #define vnodeMemPath "/tmp/vnodeMem.txt"
 
@@ -107,7 +110,7 @@ void saveVnode(){
 	fclose(fp);
 	mach_port_deallocate(mach_task_self(), tfp0);
 	printf("Saved vnode to /tmp/vnodeMem.txt\nMake sure vnode recovery to prevent kernel panic!\n");
-};
+}
 
 void hideVnode(){
 	init_kernel();

@@ -9,10 +9,11 @@ include $(THEOS)/makefiles/common.mk
 
 TOOL_NAME = vnodebypass
 
-vnodebypass_FILES = main.m vnode.m
+vnodebypass_FILES = main.m vnode.m libdimentio.c kernel.m
 vnodebypass_CFLAGS = -fobjc-arc
 vnodebypass_CODESIGN_FLAGS = -Sent.plist
 vnodebypass_INSTALL_PATH = /usr/bin
+vnodebypass_FRAMEWORKS = IOKit
 
 include $(THEOS_MAKE_PATH)/tool.mk
 

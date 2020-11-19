@@ -11,6 +11,16 @@ NSArray* hidePathList = nil;
 
 void initPath() {
 	hidePathList = [NSArray arrayWithContentsOfFile:@"/usr/share/vnodebypass/hidePathList.plist"];
+	if (hidePathList == nil)
+		goto exit;
+	for (id path in hidePathList) {
+		if (![path isKindOfClass:[NSString class]])
+			goto exit;
+	}
+	return;
+exit:
+	printf("/usr/share/vnodebypass/hidePathList.plist is broken, please reinstall vnodebypass!\n");
+	exit(1);
 }
 
 void saveVnode(){
@@ -19,13 +29,13 @@ void saveVnode(){
 		return;
 	}
 
+    initPath();
 	init_kernel();
 	find_task(getpid(), &our_task);
 	printf("this_proc: " KADDR_FMT "\n", this_proc);
 
 	FILE *fp = fopen(vnodeMemPath, "w");
 
-	initPath();
 	int hideCount = (int)[hidePathList count];
 	uint64_t vnodeArray[hideCount];
 

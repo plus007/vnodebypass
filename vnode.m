@@ -10,72 +10,17 @@
 NSArray* hidePathList = nil;
 
 void initPath() {
-	hidePathList = [NSArray arrayWithObjects:
-	                @"/.bootstrapped_electra",
-	                @"/Applications/Anemone.app",
-	                @"/Applications/Cydia.app",
-	                @"/Applications/SafeMode.app",
-	                @"/bin/bash",
-	                @"/bin/bunzip2",
-	                @"/bin/bzip2",
-	                @"/bin/cat",
-	                @"/bin/chgrp",
-	                @"/bin/chmod",
-	                @"/bin/chown",
-	                @"/bin/cp",
-	                @"/bin/grep",
-	                @"/bin/gzip",
-	                @"/bin/kill",
-	                @"/bin/ln",
-	                @"/bin/ls",
-	                @"/bin/mkdir",
-	                @"/bin/mv",
-	                @"/bin/sed",
-	                @"/bin/sh",
-	                @"/bin/su",
-	                @"/bin/tar",
-	                @"/binpack",
-	                @"/bootstrap",
-	                @"/chimera",
-	                @"/electra",
-	                @"/etc/apt",
-	                @"/etc/profile",
-	                @"/jb",
-	                @"/Library/dpkg/info/com.inoahdev.launchinsafemode.list",
-	                @"/Library/dpkg/info/com.inoahdev.launchinsafemode.md5sums",
-	                @"/Library/Frameworks/CydiaSubstrate.framework",
-	                @"/Library/MobileSubstrate/DynamicLibraries/FlyJB.dylb",
-	                @"/Library/MobileSubstrate/MobileSubstrate.dylib",
-	                @"/Library/PreferenceBundles/LaunchInSafeMode.bundle",
-	                @"/Library/PreferenceLoader/Preferences/LaunchInSafeMode.plist",
-	                @"/Library/Themes",
-	                @"/private/var/binpack",
-	                @"/private/var/checkra1n.dmg",
-	                @"/private/var/lib/apt",
-	                @"/usr/bin/diff",
-	                @"/usr/bin/hostinfo",
-	                @"/usr/bin/killall",
-	                @"/usr/bin/passwd",
-	                @"/usr/bin/recache",
-	                @"/usr/bin/tar",
-	                @"/usr/bin/which",
-	                @"/usr/bin/xargs",
-	                @"/usr/lib/libjailbreak.dylib",
-	                @"/usr/lib/libsubstitute.0.dylib",
-	                @"/usr/lib/libsubstitute.dylib",
-	                @"/usr/lib/libsubstrate.dylib",
-	                @"/usr/lib/SBInject",
-	                @"/usr/lib/SBInject.dylib",
-	                @"/usr/lib/TweakInject",
-	                @"/usr/lib/TweakInject.dylib",
-	                @"/usr/lib/TweakInjectMapsCheck.dylib",
-	                @"/usr/libexec/sftp-server",
-	                @"/usr/sbin/sshd",
-	                @"/usr/share/terminfo",
-	                @"/var/mobile/Library/.sbinjectSafeMode",
-	                @"/var/mobile/Library/Preferences/jp.akusio.kernbypass.plist",
-	                nil
-	               ];
+	hidePathList = [NSArray arrayWithContentsOfFile:@"/usr/share/vnodebypass/hidePathList.plist"];
+	if (hidePathList == nil)
+		goto exit;
+	for (id path in hidePathList) {
+		if (![path isKindOfClass:[NSString class]])
+			goto exit;
+	}
+	return;
+exit:
+	printf("/usr/share/vnodebypass/hidePathList.plist is broken, please reinstall vnodebypass!\n");
+	exit(1);
 }
 
 void saveVnode(){
@@ -84,13 +29,13 @@ void saveVnode(){
 		return;
 	}
 
+	initPath();
 	init_kernel();
 	find_task(getpid(), &our_task);
 	printf("this_proc: " KADDR_FMT "\n", this_proc);
 
 	FILE *fp = fopen(vnodeMemPath, "w");
 
-	initPath();
 	int hideCount = (int)[hidePathList count];
 	uint64_t vnodeArray[hideCount];
 

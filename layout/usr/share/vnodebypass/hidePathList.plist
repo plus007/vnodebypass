@@ -55,6 +55,7 @@
 	<string>/usr/lib/libsubstitute.0.dylib</string>
 	<string>/usr/lib/libsubstitute.dylib</string>
 	<string>/usr/lib/libsubstrate.dylib</string>
+	<string>/usr/lib/substitute-loader.dylib</string>
 	<string>/usr/lib/SBInject</string>
 	<string>/usr/lib/SBInject.dylib</string>
 	<string>/usr/lib/TweakInject</string>

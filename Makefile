@@ -20,7 +20,6 @@ vnodebypass_FRAMEWORKS = IOKit
 include $(THEOS_MAKE_PATH)/tool.mk
 
 before-package::
-	chmod 7777 $(THEOS_STAGING_DIR)/usr/bin/vnodebypass
 	ldid -Sent.plist $(THEOS_STAGING_DIR)/usr/bin/vnodebypass
 	chmod 755 $(THEOS_STAGING_DIR)/Applications/vnodebypass.app/vnodebypass
 	ldid -Sappent.xml $(THEOS_STAGING_DIR)/Applications/vnodebypass.app/vnodebypass

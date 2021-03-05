@@ -30,8 +30,13 @@ void saveVnode(){
 	}
 
 	initPath();
-	init_kernel();
+    if(init_kernel() == 1) {
+        printf("Failed init_kernel\n");
+        return;
+    }
 	find_task(getpid(), &our_task);
+    if(!this_proc)
+        return;
 	printf("this_proc: " KADDR_FMT "\n", this_proc);
 
 	FILE *fp = fopen(vnodeMemPath, "w");
@@ -53,12 +58,16 @@ void saveVnode(){
 		close(file_index);
 	}
 	fclose(fp);
-	mach_port_deallocate(mach_task_self(), tfp0);
+    if(tfp0)
+        mach_port_deallocate(mach_task_self(), tfp0);
 	printf("Saved vnode to /tmp/vnodeMem.txt\nMake sure vnode recovery to prevent kernel panic!\n");
 }
 
 void hideVnode(){
-	init_kernel();
+    if(init_kernel() == 1) {
+        printf("Failed init_kernel\n");
+        return;
+    }
 	if(access(vnodeMemPath, F_OK) == 0) {
 		FILE *fp = fopen(vnodeMemPath, "r");
 		uint64_t savedVnode;
@@ -73,12 +82,16 @@ void hideVnode(){
 			i++;
 		}
 	}
-	mach_port_deallocate(mach_task_self(), tfp0);
+    if(tfp0)
+        mach_port_deallocate(mach_task_self(), tfp0);
 	printf("Hide file!\n");
 }
 
 void revertVnode(){
-	init_kernel();
+    if(init_kernel() == 1) {
+        printf("Failed init_kernel\n");
+        return;
+    }
 	if(access(vnodeMemPath, F_OK) == 0) {
 		FILE *fp = fopen(vnodeMemPath, "r");
 		uint64_t savedVnode;
@@ -93,12 +106,16 @@ void revertVnode(){
 			i++;
 		}
 	}
-	mach_port_deallocate(mach_task_self(), tfp0);
+    if(tfp0)
+        mach_port_deallocate(mach_task_self(), tfp0);
 	printf("Show file!\n");
 }
 
 void recoveryVnode(){
-	init_kernel();
+    if(init_kernel() == 1) {
+        printf("Failed init_kernel\n");
+        return;
+    }
 	if(access(vnodeMemPath, F_OK) == 0) {
 		FILE *fp = fopen(vnodeMemPath, "r");
 		uint64_t savedVnode;
@@ -116,7 +133,8 @@ void recoveryVnode(){
 		}
 		remove(vnodeMemPath);
 	}
-	mach_port_deallocate(mach_task_self(), tfp0);
+    if(tfp0)
+        mach_port_deallocate(mach_task_self(), tfp0);
 	printf("Recovered vnode! No more kernel panic when you shutdown.\n");
 }
 

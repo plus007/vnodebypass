@@ -62,30 +62,6 @@ int offset_init() {
 	return -1;
 }
 
-//read kernel
-uint32_t kernel_read32(uint64_t where) {
-	uint32_t out;
-	kread_buf_tfp0(where, &out, sizeof(uint32_t));
-	return out;
-}
-
-uint64_t kernel_read64(uint64_t where) {
-	uint64_t out;
-	kread_buf_tfp0(where, &out, sizeof(uint64_t));
-	return out;
-}
-
-//write kernel
-void kernel_write32(uint64_t where, uint32_t what) {
-	uint32_t _what = what;
-	kwrite_buf_tfp0(where, &_what, sizeof(uint32_t));
-}
-
-void kernel_write64(uint64_t where, uint64_t what) {
-	uint64_t _what = what;
-	kwrite_buf_tfp0(where, &_what, sizeof(uint64_t));
-}
-
 //get vnode
 uint64_t get_vnode_with_file_index(int file_index, uint64_t proc) {
 	uint64_t filedesc = kernel_read64(proc + off_p_pfd);
@@ -124,11 +100,11 @@ int init_kernel() {
 		return 1;
   }
 
-	if(init_tfp0() != KERN_SUCCESS) {
-		printf("failed get_tfp0!\n");
-		return 1;
-	}
-
+//	if(init_tfp0() != KERN_SUCCESS) {
+//		printf("failed get_tfp0!\n");
+//		return 1;
+//	}
+//
 	if(kbase == 0) {
 		printf("failed get_kbase\n");
 		return 1;

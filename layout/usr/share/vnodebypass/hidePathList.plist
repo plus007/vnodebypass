@@ -6,6 +6,8 @@
 	<string>/Applications/Anemone.app</string>
 	<string>/Applications/Cydia.app</string>
 	<string>/Applications/SafeMode.app</string>
+	<string>/Applications/Sileo.app</string>
+	<string>/Applications/Zebra.app</string>
 	<string>/bin/bash</string>
 	<string>/bin/bunzip2</string>
 	<string>/bin/bzip2</string>
@@ -65,6 +67,10 @@
 	<string>/usr/sbin/sshd</string>
 	<string>/usr/share/terminfo</string>
 	<string>/var/mobile/Library/.sbinjectSafeMode</string>
+	<string>/var/mobile/fakevar</string>
+	<string>/var/MobileSoftwareUpdate/mnt1/fakevar</string>
 	<string>/var/mobile/Library/Preferences/jp.akusio.kernbypass.plist</string>
+	<string>/var/mobile/Library/Preferences/jp.akusio.kernbypass-unofficial.plist</string>
+	<string>/var/mobile/Library/Preferences/jp.akusio.kernbypass2.plist</string>
 </array>
 </plist>

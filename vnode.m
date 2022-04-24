@@ -9,24 +9,21 @@ const char *vnodeMemPath;
 NSArray *hidePathList = nil;
 
 __attribute__((constructor)) void initVnodeMemPath() {
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  if ([defaults objectForKey:@"vnodeMemPath"]) {
-    vnodeMemPath = [[defaults objectForKey:@"vnodeMemPath"] UTF8String];
-  } else {
-    vnodeMemPath = [NSString stringWithFormat:@"/tmp/%@.txt", [NSUUID UUID].UUIDString].UTF8String;
-    [defaults setObject:[NSString stringWithUTF8String:vnodeMemPath] forKey:@"vnodeMemPath"];
-  }
+  vnodeMemPath =
+      [NSString stringWithFormat:@"/tmp/%@.txt", NSProcessInfo.processInfo.processName].UTF8String;
 }
 
 void initPath() {
-  hidePathList = [NSArray arrayWithContentsOfFile:@"/usr/share/vnodebypass/hidePathList.plist"];
+  hidePathList = [NSArray
+      arrayWithContentsOfFile:[NSString stringWithFormat:@"/usr/share/%@/hidePathList.plist",
+                                                         NSProcessInfo.processInfo.processName]];
   if (hidePathList == nil) goto exit;
   for (id path in hidePathList) {
     if (![path isKindOfClass:[NSString class]]) goto exit;
   }
   return;
 exit:
-  printf("/usr/share/vnodebypass/hidePathList.plist is broken, please reinstall vnodebypass!\n");
+  printf("hidePathList.plist is broken, please reinstall vnodebypass!\n");
   exit(1);
 }
 

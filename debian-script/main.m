@@ -14,7 +14,7 @@ int main(int argc, char *argv[], char *envp[]) {
           [[NSString stringWithContentsOfFile:@"/var/lib/dpkg/info/kr.xsf1re.vnodebypass.list"
                                      encoding:NSUTF8StringEncoding
                                         error:nil] componentsSeparatedByString:@"\n"];
-      NSInteger *appPathIndex =
+      NSInteger appPathIndex =
           [fileList indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
             return [obj hasSuffix:@".app"];
           }];

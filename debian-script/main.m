@@ -6,22 +6,28 @@ int main(int argc, char *argv[], char *envp[]) {
     NSTask *task = [NSTask new];
     task.launchPath = @"/usr/bin/uicache";
 
-    if (strstr(argv[1], "remove") || strstr(argv[1], "upgrade")) {
+    BOOL isRemoving = [NSProcessInfo.processInfo.processName containsString:@"prerm"];
+    BOOL isUpgrading = strstr(argv[1], "upgrade");
+
+    if (isRemoving || isUpgrading) {
       NSArray *fileList =
           [[NSString stringWithContentsOfFile:@"/var/lib/dpkg/info/kr.xsf1re.vnodebypass.list"
                                      encoding:NSUTF8StringEncoding
                                         error:nil] componentsSeparatedByString:@"\n"];
-      for (NSString *file in fileList) {
-        if ([file hasSuffix:@".app"]) {
-          task.arguments = @[ @"-u", file ];
-          [task launch];
-          [task waitUntilExit];
-          return 0;
-        }
+      NSInteger *appPathIndex =
+          [fileList indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+            return [obj hasSuffix:@".app"];
+          }];
+      if (appPathIndex != NSNotFound) {
+        task.arguments = @[ @"-u", fileList[appPathIndex] ];
+        [task launch];
+        [task waitUntilExit];
+      } else {
+        printf("Could not find vnodebypass.app, skipping uicache\n");
       }
-      printf("Could not find vnodebypass.app, skipping uicache\n");
-      return 0;
+      if (isRemoving) return 0;
     }
+
     NSString *randomName = [[NSUUID UUID].UUIDString componentsSeparatedByString:@"-"].firstObject;
 
     NSMutableDictionary *appInfo = [NSMutableDictionary

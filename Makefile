@@ -19,7 +19,7 @@ vnodebypass_FRAMEWORKS = IOKit
 
 include $(THEOS_MAKE_PATH)/tool.mk
 SUBPROJECTS += app
-SUBPROJECTS += postinst
+SUBPROJECTS += debian-script
 include $(THEOS_MAKE_PATH)/aggregate.mk
 
 before-package::

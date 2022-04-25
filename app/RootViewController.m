@@ -56,12 +56,15 @@
   [task waitUntilExit];
   task = [NSTask launchedTaskWithLaunchPath:launchPath arguments:@[ opts[1] ]];
   [task waitUntilExit];
-  disabled = access("/bin/bash", F_OK) == 0;
-  if (disabled) {
-    [_button setTitle:@"Enable" forState:UIControlStateNormal];
-  } else {
-    [_button setTitle:@"Disable" forState:UIControlStateNormal];
-  }
+  NSString *title = access("/bin/bash", F_OK) == 0 ? @"Enable" : @"Disable";
+  NSString *successTitle = (access("/bin/bash", F_OK) == 0) == disabled ? @"Failed" : @"Success";
+  [_button setTitle:successTitle forState:UIControlStateNormal];
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    sleep(1);
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [_button setTitle:title forState:UIControlStateNormal];
+    });
+  });
 }
 
 @end

@@ -1,6 +1,8 @@
 TARGET := iphone:clang:latest:7.0
 INSTALL_TARGET_PROCESSES = vnodebypass
 
+ARCHS = arm64
+
 include $(THEOS)/makefiles/common.mk
 
 APPLICATION_NAME = vnodebypass

@@ -1,6 +1,6 @@
 GO_EASY_ON_ME = 1
-DEBUG=0
-FINALPACKAGE=1
+DEBUG = 0
+FINALPACKAGE = 1
 
 THEOS_DEVICE_IP = 0.0.0.0 -p 2222
 
@@ -23,6 +23,6 @@ SUBPROJECTS += debian-script
 include $(THEOS_MAKE_PATH)/aggregate.mk
 
 before-package::
+	chmod -R 755 $(THEOS_STAGING_DIR)
 	chmod 6755 $(THEOS_STAGING_DIR)/usr/bin/vnodebypass
-	chmod 755 $(THEOS_STAGING_DIR)/Applications/vnodebypass.app/vnodebypass
-	ldid -Sappent.xml $(THEOS_STAGING_DIR)/Applications/vnodebypass.app/vnodebypass
+	chmod 666 $(THEOS_STAGING_DIR)/DEBIAN/control

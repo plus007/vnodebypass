@@ -1,9 +1,11 @@
+Author: XsF1re
+Maintainer: ichitaso
 Package: kr.xsf1re.vnodebypass
 Name: vnodebypass
-Version: 0.2.7
+Depends: firmware (>= 12.0)
+Section: System
+Version: 0.2.8
 Architecture: iphoneos-arm
 Description: An expermental tool to hide jailbreak files for bypass detection.
-Maintainer: ichitaso
-Author: XsF1re
-Section: System
-Tag: role::hacker
+Depiction: https://cydia.ichitaso.com/depiction/vnodebypass.html
+Tag: role::hacker, compatible::ios12, compatible::ios13, compatible::ios14

@@ -8,31 +8,11 @@
 	<string>en</string>
 	<key>CFBundleExecutable</key>
 	<string>vnodebypass</string>
-	<key>CFBundleIcons</key>
-	<dict>
-		<key>CFBundlePrimaryIcon</key>
-		<dict>
-			<key>CFBundleIconFiles</key>
-			<array>
-				<string>AppIcon60x60</string>
-			</array>
-			<key>CFBundleIconName</key>
-			<string>AppIcon</string>
-		</dict>
-	</dict>
-	<key>CFBundleIcons~ipad</key>
-	<dict>
-		<key>CFBundlePrimaryIcon</key>
-		<dict>
-			<key>CFBundleIconFiles</key>
-			<array>
-				<string>AppIcon60x60</string>
-				<string>AppIcon76x76</string>
-			</array>
-			<key>CFBundleIconName</key>
-			<string>AppIcon</string>
-		</dict>
-	</dict>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>AppIcon60x60@2x.png</string>
+		<string>AppIcon76x76@2x~ipad.png</string>
+	</array>
 	<key>CFBundleIdentifier</key>
 	<string>kr.xsf1re.vnodebypass</string>
 	<key>CFBundleInfoDictionaryVersion</key>
